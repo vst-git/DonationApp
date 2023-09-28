@@ -1,0 +1,58 @@
+/* Sidebar.css */
+.sidebar {
+  width: 370px; /* Set the desired width of the sidebar */
+  height: 100vh !important;
+  /* border-radius: 5px; */
+  background-color: black;
+  box-shadow: 0 0 10px silver;
+  color: white;
+  border: 1px solid;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column; /* Display menu items in a vertical column */
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  color: blue;
+  text-decoration: none;
+  transition: all 0.2s ease; /* Adding a transition for smooth animation */
+  background-color: green; /* Set the default background color to green */
+  border-bottom: 1px solid white; /* Add a white border between menu items */
+}
+
+.menu-item:last-child {
+  border-bottom: none; /* Remove border from the last menu item */
+}
+
+.menu-item a {
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+.menu-item i {
+  margin-right: 10px;
+  color: white; /* Set the default icon color to white */
+}
+
+.menu-item.active {
+  background-color: gray;
+}
+
+.menu-item:hover {
+  background-color: gray; /* Change the background color to yellow on hover */
+  font-weight: bold; /* Simulating bold effect on hover */
+}
+
+.menu-item:hover a {
+  color: white; /* Change the title color to white on hover */
+}
+
+.menu-item:hover i {
+  color: white; /* Change the icon color to red on hover */
+}

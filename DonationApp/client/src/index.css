@@ -1,0 +1,164 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /*overflow: hidden;*/
+}
+
+/* ===========
+  ==== FORM
+  =========== */
+
+.form-banner img {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  filter: blur(10px);
+}
+
+.form-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===========
+  ==== Spinner
+  =========== */
+.loader-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.loader {
+  width: 60px;
+  height: 60px;
+  border: 6px solid #00ff00; /* Green color for the border */
+  border-radius: 50%; /* To make it a circle */
+  border-top: 6px solid transparent; /* Hide the top part */
+  animation: spin 2s linear infinite; /* Rotation animation */
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-text {
+  font-size: 24px;
+  font-weight: bold;
+  color: black; /* Green color for the text */
+}
+
+.letter {
+  opacity: 0; /* Initially hide the letters */
+  animation: fadeInLetter 1s linear infinite;
+}
+
+.dots {
+  display: inline-block;
+  width: 3em;
+  text-align: left;
+}
+
+.dot {
+  opacity: 0; /* Initially hide the dots */
+  animation: fadeInDot 1s linear infinite;
+}
+
+@keyframes fadeInLetter {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDot {
+  0%,
+  80%,
+  100% {
+    opacity: 0;
+  }
+  40%,
+  60% {
+    opacity: 1;
+  }
+}
+
+/* ======================
+--------- navbar 
+=================== */
+
+.navbar {
+  background-color: black !important;
+  color: white !important;
+  border: 1px solid; /* Adding an outer border with white color */
+}
+
+.nav-link,
+.navbar-brand {
+  background-color: black !important;
+  color: white !important;
+}
+.navbar {
+  background-color: black !important;
+  color: white !important;
+  height: 70px; /* Adjust the height as needed */
+}
+
+.navbar-brand {
+  padding: 5px 10px; /* Adjust the padding as needed */
+  margin: 0; /* Remove any margin */
+}
+
+.navbar-nav {
+  margin-top: 5px; /* Adjust the margin as needed to center the links vertically */
+}
+
+.nav-link {
+  padding: 5px 10px; /* Adjust the padding as needed */
+}
+
+/* Elements of Nav Bar*/
+.custom-link {
+  color: #00ff00 !important;
+  font-style: oblique;
+  text-decoration: underline;
+}
+
+.badge-custom {
+  background-color: yellow !important;
+  color: black !important;
+}
+
+.donate-text {
+  color: gold;
+}
+
+/* styles.css or your preferred stylesheet */
+.custom-button {
+  font-size: 15px; /* Adjust font size to make the button very small */
+  padding: 8px 10px; /* Adjust padding to make the button very small */
+  color: white;
+  font-weight: bold; /* Make the text bold */
+  cursor: pointer; /* Change cursor on hover */
+}
