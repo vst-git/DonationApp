@@ -13,7 +13,7 @@ const router = express.Router();
 router.post('/register', registerController);
 
 //LOGIN || POST
-router.post('/login', loginController);
+router.post('api/v1/login', loginController);
 
 //GET CURRENT USER || GET
 router.get('/current-user', authMiddleware, currentUserController);
