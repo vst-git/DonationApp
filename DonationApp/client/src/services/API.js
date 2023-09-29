@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API = axios.create({ baseURL: process.env.REACT_APP_BASEURL });
+const baseURL = `${window.location.protocol}//${window.location.hostname}/api/v1`;
+const API = axios.create({ baseURL: baseURL });
 
 API.interceptors.request.use((req) => {
   if (localStorage.getItem('token')) {
@@ -10,3 +11,11 @@ API.interceptors.request.use((req) => {
 });
 
 export default API;
+
+
+
+
+
+
+
+
