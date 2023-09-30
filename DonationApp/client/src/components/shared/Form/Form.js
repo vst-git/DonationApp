@@ -1,137 +1,47 @@
 import React, { useState } from 'react';
-import InputType from './InputType';
-import { Link } from 'react-router-dom';
+import '../../../index.css';
 import { handleLogin, handleRegister } from '../../../services/authService';
 
 const Form = ({ formType, submitBtn, formTitle }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('donor');
+  const [role, setRole] = useState('');
   const [name, setName] = useState('');
   const [organisationName, setOrganisationName] = useState('');
   const [hospitalName, setHospitalName] = useState('');
-  //const [website, setWebsite] = useState('');
   const [address, setAddress] = useState('');
   const [phone, setPhone] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+
+  const type = showPassword ? 'text' : 'password';
+  const icon = showPassword ? 'fas fa-eye' : 'fas fa-eye-slash';
+
+  const onSubmit = (e) => {
+    e.preventDefault(); // Prevent the default form submission behavior
+    if (formType === 'login') {
+      handleLogin(e, email, password, role);
+    } else if (formType === 'register') {
+      handleRegister(
+        e,
+        name,
+        role,
+        email,
+        password,
+        organisationName,
+        hospitalName,
+        address,
+        phone
+      );
+    }
+  };
+
+  const handleToggle = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
-    <div>
-      <form
-        onSubmit={(e) => {
-          if (formType === 'login')
-            return handleLogin(e, email, password, role);
-          else if (formType === 'register')
-            return handleRegister(
-              e,
-              name,
-              role,
-              email,
-              password,
-              organisationName,
-              hospitalName,
-              // website,
-              address,
-              phone
-            );
-        }}
-      >
-        <h1
-          className="text-center"
-          style={{
-            color: 'red',
-            textDecoration: 'underline',
-            marginTop: '20px',
-          }}
-        >
-          {formTitle}
-        </h1>
-
-        <hr />
-
-        <div className="d-flex mb-3">
-          <div className="form-check">
-            <input
-              type="radio"
-              className="form-check-input"
-              name="role"
-              id="donorRadio"
-              value={'donor'}
-              onChange={(e) => setRole(e.target.value)}
-            />
-
-            <label
-              htmlFor="donorRadio"
-              className="form-check-lable"
-              style={{
-                color: 'yellow',
-                textDecoration: 'underline',
-              }}
-            >
-              Donor
-            </label>
-          </div>
-
-          <div className="form-check ms-2">
-            <input
-              type="radio"
-              className="form-check-input"
-              name="role"
-              id="adminRadio"
-              value={'admin'}
-              onChange={(e) => setRole(e.target.value)}
-            />
-            <label
-              htmlFor="adminRadio"
-              className="form-check-label"
-              style={{
-                color: 'yellow',
-                textDecoration: 'underline',
-              }}
-            >
-              Admin
-            </label>
-          </div>
-          <div className="form-check ms-2">
-            <input
-              type="radio"
-              className="form-check-input"
-              name="role"
-              id="hospitalRadio"
-              value={'hospital'}
-              onChange={(e) => setRole(e.target.value)}
-            />
-            <label
-              htmlFor="hospitalRadio"
-              className="form-check-label"
-              style={{
-                color: 'yellow',
-                textDecoration: 'underline',
-              }}
-            >
-              Hospital
-            </label>
-          </div>
-          <div className="form-check ms-2">
-            <input
-              type="radio"
-              className="form-check-input"
-              name="role"
-              id="organisationRadio"
-              value={'organisation'}
-              onChange={(e) => setRole(e.target.value)}
-            />
-            <label
-              htmlFor="organisationRadio"
-              className="form-check-label"
-              style={{
-                color: 'yellow',
-                textDecoration: 'underline',
-              }}
-            >
-              Organisation
-            </label>
-          </div>
-        </div>
-
+    <form>
+      <div>
         {/* Switch statements */}
         {(() => {
           // eslint-disable-next-line default-case
@@ -139,160 +49,307 @@ const Form = ({ formType, submitBtn, formTitle }) => {
             case formType === 'login': {
               return (
                 <>
-                  <InputType
-                    labelText={'Email'}
-                    labelFor={'forEmail'}
-                    inputType={'email'}
-                    name={'email'}
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    labelColor={'yellow'}
-                  />
-
-                  <InputType
-                    labelText={'Password'}
-                    labelFor={'forPassword'}
-                    inputType={'password'}
-                    name={'password'}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    labelColor={'yellow'}
-                  />
+                  {/* ---------------------------------------------*/}
+                  <div
+                    className="wrapper mb-2 mt-2"
+                    style={{ maxWidth: '800px' }}
+                  >
+                    {/* ---------------------------------------------*/}
+                    <div className="logo">
+                      <img src="./assets/images/bloodDrop.png" alt="logo" />
+                    </div>
+                    {/* ---------------------------------------------*/}
+                    <div className="text-center mt-4 name">Welcome</div>
+                    {/* ---------------------------------------------*/}
+                    <form className="p-4 mt-2 mr-2 mb-2">
+                      <div className="form-field d-flex align-items-center">
+                        <span className="fas fa-user fa-inverse" />
+                        <input
+                          type="text"
+                          name="userName"
+                          id="userName"
+                          placeholder="Email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                        />
+                      </div>
+                      {/* ---------------------------------------------*/}
+                      <div className="form-field d-flex align-items-center">
+                        <span className="fas fa-key" />
+                        <input
+                          type={type}
+                          name="password"
+                          id="password"
+                          placeholder="Password"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          autoComplete="current-password"
+                        />
+                        <span
+                          className="mr-2"
+                          onClick={handleToggle}
+                          style={{ cursor: 'pointer' }}
+                        >
+                          <i className={icon} />
+                        </span>
+                      </div>
+                      {/* ---------------------------------------------*/}
+                      <div className="col-md-12 form-field d-flex align-items-center">
+                        <span className="fas fa-pencil-alt" />
+                        <input
+                          type="role"
+                          id="roleselect"
+                          className="form-control"
+                          placeholder="Role"
+                          readOnly={true}
+                        />
+                        <select
+                          className="col-md-7"
+                          id="roleselect"
+                          value={role}
+                          onChange={(e) => setRole(e.target.value)}
+                        >
+                          <option value="" disabled selected>
+                            Select
+                          </option>
+                          <option value={'donor'}>Donor</option>
+                          <option value={'admin'}>Admin</option>
+                          <option value={'hospital'}>Hospital</option>
+                          <option value={'organisation'}>Organisation</option>
+                        </select>
+                      </div>
+                      {/* ---------------------------------------------*/}
+                      <button
+                        className="btn mt-3"
+                        type="submit"
+                        onClick={onSubmit}
+                      >
+                        {submitBtn}
+                      </button>
+                      {/* ---------------------------------------------*/}
+                    </form>
+                    {/* ---------------------------------------------*/}
+                    <div className="text-center fs-6">
+                      <a href="/">Forget password?</a> or{' '}
+                      <a href="/register">Sign up</a>
+                    </div>
+                    {/* ---------------------------------------------*/}
+                  </div>
+                  {/* -------------------------------------------------------------------------------------------*/}
                 </>
               );
             }
             case formType === 'register': {
               return (
                 <>
-                  {(role === 'admin' || role === 'donor') && (
-                    <InputType
-                      labelText={'Name'}
-                      labelFor={'forName'}
-                      inputType={'text'}
-                      name={'name'}
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      labelColor={'yellow'}
-                    />
-                  )}
-                  {role === 'organisation' && (
-                    <InputType
-                      labelText={'Organisation Name'}
-                      labelFor={'fororganisationName'}
-                      inputType={'text'}
-                      name={'organisationName'}
-                      value={organisationName}
-                      onChange={(e) => setOrganisationName(e.target.value)}
-                      labelColor={'yellow'}
-                    />
-                  )}
-                  {role === 'hospital' && (
-                    <InputType
-                      labelText={'Hospital Name'}
-                      labelFor={'forHospitalName'}
-                      inputType={'text'}
-                      name={'hospitalName'}
-                      value={hospitalName}
-                      onChange={(e) => setHospitalName(e.target.value)}
-                      labelColor={'yellow'}
-                    />
-                  )}
+                  {/* -------------------------------------------------------------------------------------------*/}
+                  <div
+                    className="wrapper mt-1 mb-1"
+                    style={{ maxWidth: '1200px' }}
+                  >
+                    {/* -------------------------------------------------------------------------------------------*/}
+                    <div className="logo">
+                      <img src="./assets/images/bloodDrop.png" alt="logo" />
+                    </div>
+                    {/* -------------------------------------------------------------------------------------------*/}
+                    <div className="text-center mt-4 name mb-4">
+                      Create account
+                    </div>
+                    {/*---------------------------------------------------------------------------------------*/}
+                    <form className="p-4 mt-3 mr-3 mb-2">
+                      {/*---------------------------------------------------------------------------------------*/}
+                      <div className="row">
+                        <div className="col-md-12 form-field d-flex align-items-center">
+                          <span className="fas fa-pencil-alt" />
+                          <input
+                            type="role"
+                            id="roleselect"
+                            className="form-control"
+                            placeholder="Role"
+                            readOnly={true}
+                          />
+                          <select
+                            className="col-md-7"
+                            id="roleselect"
+                            value={role}
+                            onChange={(e) => setRole(e.target.value)}
+                          >
+                            <option value="" disabled selected>
+                              Select
+                            </option>
+                            <option
+                              value={'donor'}
+                              onChange={(e) => setRole(e.target.value)}
+                            >
+                              Donor
+                            </option>
+                            <option
+                              value={'admin'}
+                              onChange={(e) => setRole(e.target.value)}
+                            >
+                              Admin
+                            </option>
+                            <option
+                              value={'hospital'}
+                              onChange={(e) => setRole(e.target.value)}
+                            >
+                              Hospital
+                            </option>
+                            <option
+                              value={'organisation'}
+                              onChange={(e) => setRole(e.target.value)}
+                            >
+                              Organisation
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                      {/*--------------------------------------------------------------------------------------*/}
+                      <div className="row">
+                        {/*--------------------------------------------------------------------------------------*/}
+                        {role === 'donor' && (
+                          <div className="col-md-12 form-field d-flex align-items-center">
+                            <span className="fas fa-user fa-inverse" />
+                            <input
+                              type="text"
+                              id="firstName"
+                              className="form-control"
+                              placeholder="Name"
+                              onChange={(e) => setName(e.target.value)}
+                            />
+                          </div>
+                        )}
+                        {role === 'admin' && (
+                          <div className="col-md-12 form-field d-flex align-items-center">
+                            <span className="fa-solid fa-lock" />
+                            <input
+                              type="text"
+                              id="firstName"
+                              className="form-control"
+                              placeholder="Name"
+                              onChange={(e) => setName(e.target.value)}
+                            />
+                          </div>
+                        )}
+                        {role === 'organisation' && (
+                          <div className="col-md-12 form-field d-flex align-items-center">
+                            <span className="fa-solid fa-building-ngo" />
+                            <input
+                              type="text"
+                              id="firstName"
+                              className="form-control"
+                              placeholder="Organisation"
+                              onChange={(e) =>
+                                setOrganisationName(e.target.value)
+                              }
+                            />
+                          </div>
+                        )}
+                        {role === 'hospital' && (
+                          <div className="col-md-12 form-field d-flex align-items-center">
+                            <span className="fa-solid fa-hospital" />
+                            <input
+                              type="text"
+                              id="firstName"
+                              className="form-control"
+                              placeholder="Hospital"
+                              onChange={(e) => setHospitalName(e.target.value)}
+                            />
+                          </div>
+                        )}
 
-                  <InputType
-                    labelText={'Email'}
-                    labelFor={'forEmail'}
-                    inputType={'email'}
-                    name={'email'}
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    labelColor={'yellow'}
-                  />
-                  <InputType
-                    labelText={'Password'}
-                    labelFor={'forPassword'}
-                    inputType={'password'}
-                    name={'password'}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    labelColor={'yellow'}
-                  />
-                  {/* <InputType
-                    labelText={'Website'}
-                    labelFor={'forWebsite'}
-                    inputType={'text'}
-                    name={'website'}
-                    value={website}
-                    onChange={(e) => setWebsite(e.target.value)}
-                    labelColor={'yellow'}/>*/}
+                        {/*--------------------------------------------------------------------------------------*/}
+                        <div className="col-md-12 form-field d-flex align-items-center">
+                          <span className="fas fa-map-marker-alt" />
+                          <input
+                            type="text"
+                            id="address"
+                            className="form-control"
+                            placeholder="City"
+                            onChange={(e) => setAddress(e.target.value)}
+                          />
+                        </div>
 
-                  <InputType
-                    labelText={'Address'}
-                    labelFor={'forAddress'}
-                    inputType={'text'}
-                    name={'address'}
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                    labelColor={'yellow'}
-                  />
-                  <InputType
-                    labelText={'Phone'}
-                    labelFor={'forPhone'}
-                    inputType={'text'}
-                    name={'phone'}
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    labelColor={'yellow'}
-                  />
+                        {/*--------------------------------------------------------------------------------------*/}
+                      </div>
+                      {/*---------------------------------------------------------------------------------------*/}
+                      <div className="row">
+                        {/*--------------------------------------------------------------------------------------*/}
+                        <div className="col-md-12 form-field d-flex align-items-center">
+                          <span className="fas fa-envelope" />
+                          <input
+                            type="email"
+                            id="emailAddress"
+                            className="form-control"
+                            placeholder="Email"
+                            onChange={(e) => setEmail(e.target.value)}
+                          />
+                        </div>
+
+                        {/*---------------------------------------------------------------------------------------*/}
+                        <div className="col-md-12 form-field d-flex align-items-center">
+                          <span className="fas fa-phone" />
+                          <input
+                            type="tel"
+                            id="phoneNumber"
+                            className="form-control"
+                            placeholder="Phone Number"
+                            onChange={(e) => setPhone(e.target.value)}
+                          />
+                        </div>
+
+                        {/*--------------------------------------------------------------------------------------*/}
+                      </div>
+                      {/*---------------------------------------------------------------------------------------*/}
+                      <div className="row">
+                        {/*--------------------------------------------------------------------------------------*/}
+                        <div className="col-md-12 position-relative form-field d-flex align-items-center">
+                          <span className="fas fa-key" />
+                          <input
+                            type={type}
+                            id="password"
+                            placeholder="Password"
+                            value={password}
+                            className="form-control"
+                            onChange={(e) => setPassword(e.target.value)}
+                            autoComplete="current-password"
+                          />
+                          <span
+                            className="position-absolute top-50 end-0 me-3 translate-middle-y"
+                            onClick={handleToggle}
+                            style={{ cursor: 'pointer' }}
+                          >
+                            <i className={icon} />
+                          </span>
+                        </div>
+                      </div>
+                      {/*---------------------------------------------------------------------------------------*/}
+                      <div className="text-center ">
+                        <button
+                          className="btn mt-3"
+                          type="submit"
+                          onClick={onSubmit}
+                        >
+                          {submitBtn}
+                        </button>
+                      </div>
+                      {/*---------------------------------------------------------------------------------------*/}
+                    </form>
+                    {/*-------------------------------------------------------------------------------------*/}
+                    <div className="text-center fs-6">
+                      <a href="/">Forget password?</a> or{' '}
+                      <a href="/login">Sign in</a>
+                    </div>
+                    {/*-------------------------------------------------------------------------------------*/}
+                  </div>
+                  {/*---------------------------------------------------------------------------------------*/}
                 </>
               );
             }
           }
         })()}
-
-        <div className="d-flex flex-row justify-content-between">
-          {formType === 'login' ? (
-            <p
-              style={{
-                color: 'pink',
-              }}
-            >
-              Not registered yet ?
-              <Link
-                to="/register"
-                style={{
-                  color: 'red',
-                  textDecoration: 'underline',
-                }}
-              >
-                {' '}
-                Register
-              </Link>
-            </p>
-          ) : (
-            <p
-              style={{
-                color: 'pink',
-              }}
-            >
-              Already registered ?
-              <Link
-                to="/login"
-                style={{
-                  color: 'red',
-                  textDecoration: 'underline',
-                }}
-              >
-                {' '}
-                Login{' '}
-              </Link>
-            </p>
-          )}
-          <button className="btn btn-primary" type="submit">
-            {submitBtn}
-          </button>
-        </div>
-      </form>
-    </div>
+      </div>
+    </form>
   );
 };
 
